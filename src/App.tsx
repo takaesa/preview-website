@@ -47,7 +47,7 @@ function App() {
 
     const extension = urlLink.split(".").pop()?.toLowerCase();
     if (!extension) {
-      setError("Invalid URL format.");
+      alert("Invalid URL format.");
       return;
     }
 
@@ -63,7 +63,7 @@ function App() {
     } else if (extension === "xlsx") {
       fetchUrlContent(urlLink, "xlsx");
     } else {
-      setError("Unsupported file type");
+      alert("Unsupported file type");
     }
   };
 
@@ -203,77 +203,86 @@ function App() {
 
   return (
     <div>
-      {/* upload section area */}
-      <input
-        type="file"
-        accept=".jpeg, .png, .jpg, .pdf, .docx, .xlsx"
-        multiple
-        onChange={handleFileChange}
-        aria-label="Uploading your file"
-      />
-      <input
-        type="text"
-        placeholder="Enter file url"
-        value={urlLink}
-        onChange={handleUrlChange}
-        style={{ width: "100%", padding: "1rem", marginTop: "1rem" }}
-      />
-      <button
-        onClick={handleFetchContent}
-        style={{ padding: "1rem 1.5rem", marginTop: "1rem" }}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
       >
-        Render URL
-      </button>
-      <Suspense fallback={renderLoader()}>
-        {selectedDocs.length > 0 &&
-          selectedDocs.map((file, index) => (
-            <div key={index} style={{ marginTop: "20px" }}>
-              {renderFile(file)}
+        {/* upload section area */}
+        <input
+          type="file"
+          accept=".jpeg, .png, .jpg, .pdf, .docx, .xlsx"
+          multiple
+          onChange={handleFileChange}
+          hidden
+          id="upload-button"
+        />
+        <label htmlFor="upload-button">Choose File</label>
+        <input
+          type="text"
+          placeholder="Enter file url"
+          value={urlLink}
+          onChange={handleUrlChange}
+          id="URL-input"
+        />
+        <button onClick={handleFetchContent} id="render-url-btn">
+          Render URL
+        </button>
+      </div>
+      <div>
+        <Suspense fallback={renderLoader()}>
+          {selectedDocs.length > 0 &&
+            selectedDocs.map((file, index) => (
+              <div key={index} style={{ marginTop: "20px" }}>
+                {renderFile(file)}
+              </div>
+            ))}
+        </Suspense>
+
+        {/* URL section area */}
+
+        {/* Render content base on fileType */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <Suspense fallback={renderLoader()}>
+          {fileType === "file" && fileContent && (
+            <div>
+              <DocViewer
+                documents={[{ uri: fileContent }]}
+                pluginRenderers={DocViewerRenderers}
+              />
+
+              <div>clg</div>
             </div>
-          ))}
-      </Suspense>
+          )}
 
-      {/* URL section area */}
+          {fileType === "docx" && fileContent && (
+            <div
+              style={{
+                marginTop: "1rem",
+                padding: ".75rem",
+                border: "1px solid #ccc",
+              }}
+              dangerouslySetInnerHTML={{ __html: fileContent }}
+            ></div>
+          )}
 
-      {/* Render content base on fileType */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <Suspense fallback={renderLoader()}>
-        {fileType === "file" && fileContent && (
-          <div>
-            <DocViewer
-              documents={[{ uri: fileContent }]}
-              pluginRenderers={DocViewerRenderers}
+          {fileType === "xlsx" && fileContent && (
+            <div
+              style={{
+                marginTop: "20px",
+                padding: "10px",
+                border: "1px solid #ccc",
+                overflowY: "scroll",
+                height: "400px",
+              }}
+              dangerouslySetInnerHTML={{ __html: fileContent }}
             />
-
-            <div>clg</div>
-          </div>
-        )}
-
-        {fileType === "docx" && fileContent && (
-          <div
-            style={{
-              marginTop: "1rem",
-              padding: ".75rem",
-              border: "1px solid #ccc",
-            }}
-            dangerouslySetInnerHTML={{ __html: fileContent }}
-          ></div>
-        )}
-
-        {fileType === "xlsx" && fileContent && (
-          <div
-            style={{
-              marginTop: "20px",
-              padding: "10px",
-              border: "1px solid #ccc",
-              overflowY: "scroll",
-              height: "400px",
-            }}
-            dangerouslySetInnerHTML={{ __html: fileContent }}
-          />
-        )}
-      </Suspense>
+          )}
+        </Suspense>
+      </div>
     </div>
   );
 }
