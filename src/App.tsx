@@ -22,6 +22,7 @@ function App() {
 
   // file change handler
   const handleFileChange = (el: React.ChangeEvent<HTMLInputElement>) => {
+    setFileContent(null);
     if (el.target.files?.length) {
       const file = el.target.files[0];
       setSelectedDocs([file]);
@@ -41,6 +42,7 @@ function App() {
   // fetch url link
   const handleFetchContent = async () => {
     setError(null);
+    setFileType(null);
     setFileContent(null);
 
     const extension = urlLink.split(".").pop()?.toLowerCase();
@@ -132,6 +134,8 @@ function App() {
       fileType === "png" ||
       fileType === "jpg"
     ) {
+      // setFileType("file");
+      // setFileContent(fileUrl);
       return (
         <DocViewer
           documents={[{ uri: fileUrl, fileName: file.name }]}
@@ -140,12 +144,13 @@ function App() {
       );
     } else if (fileType === "docx") {
       convertDocxToHtml(file);
-      return <div dangerouslySetInnerHTML={{ __html: fileContent! }}></div>;
+      return null;
     } else if (fileType === "xlsx") {
       renderExcelAsTable(file);
-      return <table id="table"></table>;
+      return null;
     } else {
       setError(`Unsupported file type: ${file.name}`);
+      return null;
     }
   };
 
@@ -206,17 +211,6 @@ function App() {
         onChange={handleFileChange}
         aria-label="Uploading your file"
       />
-      <Suspense fallback={renderLoader()}>
-        {selectedDocs.length > 0 &&
-          selectedDocs.map((file, index) => (
-            <div key={index} style={{ marginTop: "20px" }}>
-              {renderFile(file)}
-            </div>
-          ))}
-      </Suspense>
-
-      {/* URL section area */}
-      <h3>Render URL File</h3>
       <input
         type="text"
         placeholder="Enter file url"
@@ -230,6 +224,16 @@ function App() {
       >
         Render URL
       </button>
+      <Suspense fallback={renderLoader()}>
+        {selectedDocs.length > 0 &&
+          selectedDocs.map((file, index) => (
+            <div key={index} style={{ marginTop: "20px" }}>
+              {renderFile(file)}
+            </div>
+          ))}
+      </Suspense>
+
+      {/* URL section area */}
 
       {/* Render content base on fileType */}
       {error && <p style={{ color: "red" }}>{error}</p>}
