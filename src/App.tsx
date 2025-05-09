@@ -69,13 +69,9 @@ function App() {
 
   // fetch content from URL
   const fetchUrlContent = async (url: string, type: string) => {
-    const proxyURL = "https://cors-anywhere.herokuapp.com/";
+    // const proxyURL = "https://cors-anywhere.herokuapp.com/";
     try {
-      const response = await fetch(proxyURL + url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
+      const response = await fetch(url);
       if (!response) throw new Error("Failed to fetch file.");
 
       const content = await response.blob();
