@@ -1,3 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -23,19 +33,99 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #202020;
+}
+
+#header {
+  font-size: 2.25rem;
+  line-height: 1.2;
+  color: white;
+}
+#sub-header {
+  line-height: 1.2;
+  color: whitesmoke;
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  line-height: 150%;
+}
+
+.upload-file-btn {
+  width: 100%;
+}
+
+input {
+  height: 100%;
+}
+
+#URL-input::placeholder {
+  color: #838383;
+}
+
+#upload-button {
+  width: 1024px;
+}
+.upload-button-container {
+  width: 100%;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  background-color: #4b4b4b;
+  color: gray;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+  width: 80%;
+  height: 400px;
+  text-align: center;
+  border: dashed 4px rgb(255, 188, 63);
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  margin-top: 1rem;
+  text-align: center;
+  line-height: 70px;
+}
+
+#upload-file-icon {
+  width: 5rem;
+  margin-bottom: 2rem;
+}
+
+h3 {
+  color: white;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  line-height: 150%;
+}
+#Mime-type {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgb(255, 188, 63);
+}
+
+/* url input css */
+#url-input-container {
+  display: flex;
+  width: 80%;
+  text-align: center;
+  align-items: center;
+  justify-self: center;
 }
 
 button {
-  background-color: #4a90e2;
-  color: white;
-  padding: 0.75rem 1rem;
+  background-color: rgb(255, 188, 63);
+  color: rgb(22, 22, 22);
+  padding: 0.75rem 1.25rem;
   font-family: sans-serif;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 500;
@@ -43,54 +133,74 @@ button {
   height: 100%;
   cursor: pointer;
   border: 1px solid transparent;
+  margin-left: 1rem;
 }
 button:hover {
-  border-color: #4a90e2;
-  background-color: white;
-  color: #4a90e2;
-  border: 1px solid #4a90e2;
+  border-color: rgb(255, 188, 63);
+  background-color: rgb(22, 22, 22);
+  color: rgb(255, 188, 63);
+  border: 1px solid rgb(255, 188, 63);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.upload-file-btn {
-  width: 100%;
-}
-
-label {
-  display: inline-block;
-  background-color: #4a90e2;
-  color: white;
-  padding: 0.75rem 1rem;
-  font-family: sans-serif;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin: 0;
-  height: 100%;
-}
-
-input {
-  height: 100%;
+#URL-input:focus {
+  border: none;
+  outline: dashed 2px rgb(31, 31, 31);
+  outline-offset: -6px;
+  border-radius: 2;
 }
 
 #URL-input {
   display: inline-block;
-  background-color: transparent;
-  color: #333333;
+  background-color: rgb(235, 235, 235);
+  color: #242424;
   padding: 0.75rem 1rem;
   font-family: sans-serif;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   font-size: 1.2rem;
   font-weight: 500;
   margin: 0;
   height: 100%;
-  width: 50%;
+  width: auto;
+  flex-grow: 1;
+  border: none;
 }
 
-#URL-input::placeholder {
-  color: #ccc;
+.separated-section-text {
+  color: white;
+  font-size: 3rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: black;
+  line-height: 1.6;
+}
+
+td {
+  color: black;
+  padding: 8px;
+}
+tr {
+  column-gap: 2rem;
+}
+table {
+  width: 100%;
+  background-color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table,
+tr,
+td {
+  border: black;
 }
