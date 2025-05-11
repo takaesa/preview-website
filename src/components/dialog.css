@@ -1,0 +1,28 @@
+#cancel-btn {
+  background-color: rgb(240, 240, 240);
+  color: rgb(22, 22, 22);
+  padding: 0.5rem 1rem;
+  font-family: sans-serif;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 0;
+  height: 100%;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-left: 1rem;
+}
+#submit-btn {
+  background-color: #24bb74;
+  color: white;
+  padding: 0.5rem 2rem;
+  font-family: sans-serif;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 0;
+  height: 100%;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-left: 1rem;
+}

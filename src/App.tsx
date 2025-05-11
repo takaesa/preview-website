@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 
+import HtmlDocx from "html-docx-ts";
+import { saveAs } from "file-saver";
+
 import * as XLSX from "xlsx";
 import * as mammoth from "mammoth";
+
+import CustomDialog from "./components/Dialog";
 
 function App() {
   // state for uploaded file
@@ -14,11 +19,53 @@ function App() {
   const [fileContent, setFileContent] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // state for edit the content of docx file
+  const editorRef = useRef<HTMLDivElement>(null);
+  const [editedContent, setEditedContent] = useState<string>("");
+
   // state for URL input
   const [urlLink, setUrlLink] = useState<string>("");
 
   // lazy loading
   const renderLoader = () => <p>Loading</p>;
+
+  // handle edit
+  const handleEditorInput = () => {
+    if (editorRef.current) {
+      setEditedContent(editorRef.current.innerHTML);
+    }
+  };
+
+  useEffect(() => {
+    if (editorRef.current && fileType === "docx") {
+      editorRef.current.innerHTML = editedContent;
+    }
+  }, [editedContent, fileType]);
+
+  // handle export docx after edit
+  const handleExportDocx = async () => {
+    const html = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Document</title>
+  </head>
+  <body>
+    ${editedContent}
+  </body>
+</html>
+`;
+
+    const buffer = await HtmlDocx?.asBlob(html);
+
+    const arrayBuffer = await (buffer as Blob)?.arrayBuffer();
+    const blob = new Blob([arrayBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    });
+
+    saveAs(blob, "edited.docx");
+  };
 
   // file change handler
   const handleFileChange = (el: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,6 +233,7 @@ function App() {
           .then((result) => {
             setFileType("docx");
             setFileContent(result.value);
+            setEditedContent(result.value);
           })
           .catch((error) => {
             setError(`Error processing docx file: ${error.message}`);
@@ -211,7 +259,7 @@ function App() {
           hidden
           id="upload-button"
         />
-        <label htmlFor="upload-button">
+        <label htmlFor="upload-button" id="upload-btn-label">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -248,9 +296,10 @@ function App() {
           onChange={handleUrlChange}
           id="URL-input"
         />
-        <button onClick={handleFetchContent} id="render-url-btn">
+        <CustomDialog></CustomDialog>
+        {/* <button onClick={handleFetchContent} id="render-url-btn">
           Submit
-        </button>
+        </button> */}
       </div>
       <div>
         <Suspense fallback={renderLoader()}>
@@ -274,8 +323,6 @@ function App() {
                 documents={[{ uri: fileContent }]}
                 pluginRenderers={DocViewerRenderers}
               />
-
-              <div>clg</div>
             </div>
           )}
 
@@ -288,13 +335,25 @@ function App() {
               }}
             >
               <div
+                ref={editorRef}
+                contentEditable
+                onChange={handleEditorInput}
+                // {...(editorRef.current === null && {
+                //   dangerouslySetInnerHTML: { __html: editedContent },
+                // })}
                 style={{
                   padding: "1rem",
                   backgroundColor: "white",
                   border: "1px solid white",
                 }}
-                dangerouslySetInnerHTML={{ __html: fileContent }}
               ></div>
+
+              <button
+                onClick={handleExportDocx}
+                style={{ marginTop: "1rem", padding: "0.5rem 1rem" }}
+              >
+                Export to DOCX
+              </button>
             </div>
           )}
 
