@@ -297,9 +297,9 @@ function App() {
           id="URL-input"
         />
         <CustomDialog></CustomDialog>
-        {/* <button onClick={handleFetchContent} id="render-url-btn">
+        <button onClick={handleFetchContent} id="render-url-btn">
           Submit
-        </button> */}
+        </button>
       </div>
       <div>
         <Suspense fallback={renderLoader()}>

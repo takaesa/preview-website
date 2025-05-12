@@ -12,15 +12,21 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
+import "./dialog.css";
 
 import { useState } from "react";
-import "./dialog.css";
 
 const CustomDialog = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)} id="render-url-btn">
+      <Button
+        onClick={() => {
+          setOpen(true);
+          console.log("popup Modal");
+        }}
+        id="render-url-btn"
+      >
         Submit
       </Button>
       <Dialog
