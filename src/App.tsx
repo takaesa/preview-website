@@ -296,10 +296,10 @@ function App() {
           onChange={handleUrlChange}
           id="URL-input"
         />
-        <CustomDialog></CustomDialog>
         <button onClick={handleFetchContent} id="render-url-btn">
           Submit
         </button>
+        <CustomDialog></CustomDialog>
       </div>
       <div>
         <Suspense fallback={renderLoader()}>

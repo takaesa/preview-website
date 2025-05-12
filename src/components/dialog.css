@@ -26,3 +26,18 @@
   border: 1px solid transparent;
   margin-left: 1rem;
 }
+
+#pop-up-btn {
+  background-color: rgb(255, 188, 63);
+  color: rgb(22, 22, 22);
+  padding: 0.7rem 1.25rem;
+  font-family: sans-serif;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 0;
+  height: 80%;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-left: 1rem;
+}

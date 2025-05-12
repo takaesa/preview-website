@@ -25,9 +25,9 @@ const CustomDialog = () => {
           setOpen(true);
           console.log("popup Modal");
         }}
-        id="render-url-btn"
+        id="pop-up-btn"
       >
-        Submit
+        Pop-up
       </Button>
       <Dialog
         open={open}
